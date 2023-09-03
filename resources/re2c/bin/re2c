@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+/*
+ +------------------------------------------------------------------------+
+ | Azirax re2c                                                            |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2023 Azirax Team (http://mrversion.de)                   |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file LICENSE.txt.                             |
+ |                                                                        |
+ | <http://opensource.org/licenses/bsd-license.php> New BSD License       |
+ +------------------------------------------------------------------------+
+ | Authors: Rene Dziuba <php.tux@web.de>                                  |
+ +------------------------------------------------------------------------+
+ */
+declare(strict_types=1);
+
+// Load class files
+require dirname(__DIR__) . '/src/Parser/StackEntry.php';
+require dirname(__DIR__) . '/src/Parser/Token.php';
+require dirname(__DIR__) . '/src/Regex/Lexer.php';
+require dirname(__DIR__) . '/src/Regex/Parser.php';
+require dirname(__DIR__) . '/src/Code.php';
+require dirname(__DIR__) . '/src/Exception.php';
+require dirname(__DIR__) . '/src/Lexer.php';
+require dirname(__DIR__) . '/src/Parser.php';
+require dirname(__DIR__) . '/src/Re2c.php';
+
+$a = new \Azirax\Re2c\Re2c($_SERVER['argv'][1]);

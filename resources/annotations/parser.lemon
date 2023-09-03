@@ -1,0 +1,220 @@
+/* parser.lemon
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
+%token_prefix PHANNOT_
+%extra_argument {ParserStatus $status}
+%name phannot
+
+%left COMMA .
+
+%include {
+namespace Phalcon\Parser\Annotations;
+
+use Phalcon\Parser\Annotations\Parser\ParserStatus;
+use Phalcon\Parser\Enum;
+}
+
+%parse_accept {
+    $this->status->setStatus(ParserStatus::PHANNOT_PARSING_OK);
+}
+
+%syntax_error {
+    if ($this->status->getScannerState()->getStartLength() !== null) {
+        $status    = $this->status;
+        $tokenName = null;
+        $activeToken = $this->status->getToken();
+
+        if ($activeToken) {
+            $tokenName = Enum::getTokenName($activeToken->getOpcode());
+        }
+
+        if (null === $tokenName) {
+            $tokenName = 'UNKNOWN';
+        }
+
+        if ($status->getScannerState()->getStartLength() > 0) {
+            if ($activeToken->getValue()) {
+                $error = sprintf(
+                    'Syntax error, unexpected token %s(%s), near to "%s" in %s on line %d',
+                    $tokenName,
+                    $activeToken->getValue(),
+                    $status->getScannerState()->getStartLength(),
+                    $status->getScannerState()->getActiveFile(),
+                    $status->getScannerState()->getActiveLine()
+                );
+                $status->setSyntaxError($error);
+            } else {
+                $error = sprintf(
+                    'Syntax error, unexpected token %s, near to "%s" in %s on line %d',
+                    $tokenName,
+                    $status->getScannerState()->getStartLength(),
+                    $status->getScannerState()->getActiveFile(),
+                    $status->getScannerState()->getActiveLine()
+                );
+                $status->setSyntaxError($error);
+            }
+
+        } else {
+            if ($activeToken->getOpcode() !== Enum::PHANNOT_T_IGNORE) {
+                if ($activeToken->getValue()) {
+                    $error = sprintf(
+                        'Syntax error, unexpected token %s(%s), at the end of docblock in %s on line %d',
+                        $tokenName,
+                        $activeToken->getValue(),
+                        $status->getScannerState()->getActiveFile(),
+                        $status->getScannerState()->getActiveLine()
+                    );
+                    $status->setSyntaxError($error);
+                } else {
+                    $error = sprintf(
+                        'Syntax error, unexpected token %s, at the end of docblock in %s on line %d',
+                        $tokenName,
+                        $status->getScannerState()->getActiveFile(),
+                        $status->getScannerState()->getActiveLine()
+                    );
+                    $status->setSyntaxError($error);
+                }
+            }
+
+        }
+    } else {
+        $error = sprintf(
+            'Syntax error, unexpected EOF, at the end of docblock in %s on line %d',
+            $this->status->getScannerState()->getActiveFile(),
+            $this->status->getScannerState()->getActiveLine()
+        );
+        $this->status->setSyntaxError($error);
+    }
+
+    $this->status->setStatus(ParserStatus::PHANNOT_PARSING_FAILED);
+}
+
+program ::= annotation_language(Q) . {
+	$this->retvalue = Q;
+}
+
+%destructor annotation_language {
+    if (isset($$)) $$ = null;
+}
+
+annotation_language(R) ::= annotation_list(L) . {
+	R = L;
+}
+
+%destructor annotation_list {
+    //zval_ptr_dtor(&$$);
+}
+
+annotation_list(R) ::= annotation_list(L) annotation(S) . {
+	$this->helper->list(R, L, S);
+}
+
+annotation_list(R) ::= annotation(S) . {
+	$this->helper->list(R, NULL, S);
+}
+
+%destructor annotation {
+    //zval_ptr_dtor(&$$);
+}
+
+annotation(R) ::= AT IDENTIFIER(I) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
+	$this->helper->annotation(R, I, L, $this->status);
+}
+
+annotation(R) ::= AT IDENTIFIER(I) PARENTHESES_OPEN PARENTHESES_CLOSE . {
+	$this->helper->annotation(R, I, NULL, $this->status);
+}
+
+annotation(R) ::= AT IDENTIFIER(I) . {
+	$this->helper->annotation(R, I, NULL, $this->status);
+}
+
+%destructor argument_list {
+    //zval_ptr_dtor(&$$);
+}
+
+argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
+	$this->helper->list(R, L, I);
+}
+
+argument_list(R) ::= argument_item(I) . {
+	$this->helper->list(R, NULL, I);
+}
+
+%destructor argument_item {
+    //zval_ptr_dtor(&$$);
+}
+
+argument_item(R) ::= expr(E) . {
+	$this->helper->namedItem(R, NULL, E);
+}
+
+argument_item(R) ::= STRING(S) EQUALS expr(E) . {
+	$this->helper->namedItem(R, S, E);
+}
+
+argument_item(R) ::= STRING(S) COLON expr(E) . {
+	$this->helper->namedItem(R, S, E);
+}
+
+argument_item(R) ::= IDENTIFIER(I) EQUALS expr(E) . {
+	$this->helper->namedItem(R, I, E);
+}
+
+argument_item(R) ::= IDENTIFIER(I) COLON expr(E) . {
+	$this->helper->namedItem(R, I, E);
+}
+
+%destructor expr {
+    //zval_ptr_dtor(&$$);
+}
+
+expr(R) ::= annotation(S) . {
+	R = S;
+}
+
+expr(R) ::= array(A) . {
+	R = A;
+}
+
+expr(R) ::= IDENTIFIER(I) . {
+	$this->helper->literal(R, Enum::PHANNOT_T_IDENTIFIER, I);
+}
+
+expr(R) ::= INTEGER(I) . {
+	$this->helper->literal(R, Enum::PHANNOT_T_INTEGER, I);
+}
+
+expr(R) ::= STRING(S) . {
+	$this->helper->literal(R, Enum::PHANNOT_T_STRING, S);
+}
+
+expr(R) ::= DOUBLE(D) . {
+	$this->helper->literal(R, Enum::PHANNOT_T_DOUBLE, D);
+}
+
+expr(R) ::= NULL . {
+	$this->helper->literal(R, Enum::PHANNOT_T_NULL, NULL);
+}
+
+expr(R) ::= FALSE . {
+	$this->helper->literal(R, Enum::PHANNOT_T_FALSE, NULL);
+}
+
+expr(R) ::= TRUE . {
+	$this->helper->literal(R, Enum::PHANNOT_T_TRUE, NULL);
+}
+
+array(R) ::= BRACKET_OPEN argument_list(A) BRACKET_CLOSE . {
+	$this->helper->arrays(R, A);
+}
+
+array(R) ::= SBRACKET_OPEN argument_list(A) SBRACKET_CLOSE . {
+	$this->helper->arrays(R, A);
+}
