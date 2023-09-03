@@ -17,16 +17,15 @@
  */
 declare(strict_types=1);
 
-namespace Phalcon\Parser\Annotations;
+namespace Phalcon\Parsers\Annotations;
 
-use Phalcon\Parser\Annotations\Parser\ParserStatus;
-use Phalcon\Parser\Enum;
-use Phalcon\Parser\Scanner\ScannerToken;
+use Phalcon\Parsers\Annotations\Parser\ParserStatus;
+use Phalcon\Parsers\Enum;
 
 /**
  * Parser helper class
  *
- * @package Phalcon\Parser\Annotations
+ * @package Phalcon\Parsers\Annotations
  */
 class Helper
 {

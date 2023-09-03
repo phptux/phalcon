@@ -18,16 +18,17 @@
 */
 declare(strict_types=1);
 
-namespace Phalcon\Parser\Annotations;
+namespace Phalcon\Parsers\Annotations;
 
-use Phalcon\Parser\Annotations\Parser\ParserStatus;
-use Phalcon\Parser\Enum;
-use Phalcon\Parser\Parser\StackEntry;
+use Phalcon\Parsers\Annotations\Parser\ParserStatus;
+use Phalcon\Parsers\Enum;
+use Phalcon\Parsers\Parser\StackEntry;
+use Phalcon\Parsers\Scanner\ScannerToken;
 
 /**
  * Annotation parser.
  *
- * @package Phalcon\Parser\Annotations
+ * @package Phalcon\Parsers\Annotations
  */
 class Parser
 {
@@ -818,7 +819,7 @@ class Parser
             $activeToken = $this->status->getToken();
 
             if ($activeToken) {
-                $tokenName = Enum::getTokenName($activeToken->getOpcode());
+                $tokenName = ScannerToken::getTokenName($activeToken->getOpcode());
             }
 
             if (null === $tokenName) {

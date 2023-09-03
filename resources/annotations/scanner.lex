@@ -22,11 +22,11 @@ use Phalcon\Parsers\Scanner\ScannerToken;
 use Phalcon\Parsers\Annotations\Scanner\ScannerState;
 
 /**
- * Annotation Lexer
+ * Annotation scanner
  *
  * @package Phalcon\Parser\Annotations
  */
-class Lexer
+class Scanner
 {
     /**
      * Token number

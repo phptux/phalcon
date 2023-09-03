@@ -18,12 +18,12 @@
  */
 declare(strict_types=1);
 
-namespace Phalcon\Parser\Annotations;
+namespace Phalcon\Parsers\Annotations;
 
 /**
- * Exception for namespace `Phalcon\Parser\Annotations`.
+ * Exception for namespace `Phalcon\Parsers\Annotations`.
  *
- * @package Phalcon\Parser\Annotations
+ * @package Phalcon\Parsers\Annotations
  */
 class Exception extends \Exception
 {

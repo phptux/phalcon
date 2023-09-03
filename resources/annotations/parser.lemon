@@ -14,10 +14,10 @@
 %left COMMA .
 
 %include {
-namespace Phalcon\Parser\Annotations;
+namespace Phalcon\Parsers\Annotations;
 
-use Phalcon\Parser\Annotations\Parser\ParserStatus;
-use Phalcon\Parser\Enum;
+use Phalcon\Parsers\Annotations\Parser\ParserStatus;
+use Phalcon\Parsers\Scanner\ScannerToken;
 }
 
 %parse_accept {
@@ -31,7 +31,7 @@ use Phalcon\Parser\Enum;
         $activeToken = $this->status->getToken();
 
         if ($activeToken) {
-            $tokenName = Enum::getTokenName($activeToken->getOpcode());
+            $tokenName = ScannerToken::getTokenName($activeToken->getOpcode());
         }
 
         if (null === $tokenName) {

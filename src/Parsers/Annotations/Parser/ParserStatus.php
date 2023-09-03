@@ -18,15 +18,15 @@
  */
 declare(strict_types=1);
 
-namespace Phalcon\Parser\Annotations\Parser;
+namespace Phalcon\Parsers\Annotations\Parser;
 
-use Phalcon\Parser\Annotations\Scanner\ScannerState;
-use Phalcon\Parser\Scanner\ScannerToken;
+use Phalcon\Parsers\Annotations\Scanner\ScannerState;
+use Phalcon\Parsers\Scanner\ScannerToken;
 
 /**
  * Parser status class.
  *
- * @package Phalcon\Parser\Annotations\Parser
+ * @package Phalcon\Parsers\Annotations\Parser
  */
 class ParserStatus
 {

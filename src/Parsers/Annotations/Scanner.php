@@ -15,11 +15,11 @@
  | Authors: Rene Dziuba <php.tux@web.de>                                  |
  +------------------------------------------------------------------------+
  */
-namespace Phalcon\Parser\Annotations;
+namespace Phalcon\Parsers\Annotations;
 
-use Phalcon\Parser\Enum;
-use Phalcon\Parser\Scanner\ScannerToken;
-use Phalcon\Parser\Annotations\Scanner\ScannerState;
+use Phalcon\Parsers\Enum;
+use Phalcon\Parsers\Scanner\ScannerToken;
+use Phalcon\Parsers\Annotations\Scanner\ScannerState;
 
 /**
  * Annotation Scanner
@@ -31,9 +31,9 @@ class Scanner
     /**
      * Token number
      *
-     * @var int
+     * @var int|string
      */
-    public int $token = 0;
+    public int|string $token = 0;
 
     /**
      * Token value
@@ -86,11 +86,11 @@ class Scanner
     /**
      * Save the token in the scanner state
      *
-     * @param int $opcode   Token number
+     * @param int|string $opcode   Token number
      *
      * @return void
      */
-    protected function saveToken(int $opcode): void
+    protected function saveToken(int|string $opcode): void
     {
         $token = new ScannerToken(
             $opcode,

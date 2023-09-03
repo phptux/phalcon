@@ -1,4 +1,5 @@
 <?php
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -18,16 +19,16 @@
  */
 declare(strict_types=1);
 
-namespace Phalcon\Parser;
+namespace Phalcon\Parsers;
 
-use Phalcon\Parser\Annotations\Parser;
-use Phalcon\Parser\Annotations\Scanner;
-use Phalcon\Parser\Scanner\ScannerToken;
+use Phalcon\Parsers\Annotations\Parser;
+use Phalcon\Parsers\Annotations\Scanner;
+use Phalcon\Parsers\Scanner\ScannerToken;
 
 /**
  * Parser for class annotations
  *
- * @package Phalcon\Parser
+ * @package Phalcon\Parsers
  */
 class Annotations
 {
@@ -39,7 +40,6 @@ class Annotations
      * @param int|null    $line     File line number
      *
      * @return array
-     * @throws Exception
      */
     public function parseComment(string $comment, ?string $file = null, ?int $line = null): array
     {

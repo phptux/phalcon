@@ -15,7 +15,7 @@
  */
 declare(strict_types=1);
 
-namespace Phalcon\Parser\Parser;
+namespace Phalcon\Parsers\Parser;
 
 use ArrayAccess;
 
@@ -23,7 +23,7 @@ use ArrayAccess;
  * This can be used to store both the string representation of
  * a token, and any useful meta-data associated with the token.
  *
- * @package    Phalcon\Parser\Parser
+ * @package    Phalcon\Parsers\Parser
  * @author     Rene Dziuba <php.tux@web.de>
  * @copyright  Copyright (c) 2023 The Authors
  * @license    <http://opensource.org/licenses/bsd-license.php> New BSD License

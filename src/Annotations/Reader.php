@@ -55,7 +55,7 @@ class Reader implements ReaderInterface
             /**
              * Append the class annotations to the annotations var
              */
-            if (is_array($classAnnotations)) {
+            if (is_array($classAnnotations) && count($classAnnotations) > 0) {
                 $annotations["class"] = $classAnnotations;
             }
         }
@@ -89,7 +89,7 @@ class Reader implements ReaderInterface
                         $line
                     );
 
-                    if (is_array($constantAnnotations)) {
+                    if (count($constantAnnotations) > 0) {
                         $anotationsConstants[$constant] = $constantAnnotations;
                     }
                 }
@@ -125,7 +125,7 @@ class Reader implements ReaderInterface
                         $line
                     );
 
-                    if (is_array($propertyAnnotations)) {
+                    if (count($propertyAnnotations) > 0) {
                         $annotationsProperties[$property->name] = $propertyAnnotations;
                     }
                 }
@@ -157,7 +157,7 @@ class Reader implements ReaderInterface
                         $method->getStartLine()
                     );
 
-                    if (is_array($methodAnnotations)) {
+                    if (count($methodAnnotations) > 0) {
                         $annotationsMethods[$method->name] = $methodAnnotations;
                     }
                 }

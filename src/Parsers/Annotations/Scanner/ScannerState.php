@@ -18,15 +18,14 @@
  */
 declare(strict_types=1);
 
-namespace Phalcon\Parser\Annotations\Scanner;
+namespace Phalcon\Parsers\Annotations\Scanner;
 
-use Phalcon\Parser\Enum;
-use Phalcon\Parser\Scanner\ScannerToken;
+use Phalcon\Parsers\Scanner\ScannerToken;
 
 /**
  * Scanner state class
  *
- * @package Phalcon\Parser\Annotations\Scanner
+ * @package Phalcon\Parsers\Annotations\Scanner
  */
 class ScannerState
 {
@@ -69,7 +68,7 @@ class ScannerState
          *
          * @var string|null
          */
-    protected ? string $start = null;
+    protected ?string $start = null;
 
     /**
      * End char

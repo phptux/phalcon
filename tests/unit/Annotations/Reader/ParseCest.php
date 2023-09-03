@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Annotations\Reader;
 
-use Phalcon\Annotations\Exception;
+use Phalcon\Parsers\Exception;
 use Phalcon\Annotations\Reader;
 use ReflectionException;
 use UnitTester;
@@ -72,7 +72,7 @@ class ParseCest
         $file = str_replace("/", DIRECTORY_SEPARATOR, $file);
 
         $I->expectThrowable(
-            new Exception('Syntax error, unexpected EOF in ' . $file),
+            new Exception('Syntax error, unexpected token START, at the end of docblock in ' . $file . ' on line 17'),
             function () {
                 $reader = new Reader();
 

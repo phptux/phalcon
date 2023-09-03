@@ -15,7 +15,7 @@
  */
 declare(strict_types=1);
 
-namespace Phalcon\Parser\Parser;
+namespace Phalcon\Parsers\Parser;
 
 /**
  * The following structure represents a single element of the parser's stack.
@@ -31,7 +31,7 @@ namespace Phalcon\Parser\Parser;
  *   the information used by the action routines in the grammar.
  *   It is sometimes called the "minor" token.
  *
- * @package    Phalcon\Parser\Parser
+ * @package    Phalcon\Parsers\Parser
  * @author     Rene Dziuba <php.tux@web.de>
  * @copyright  Copyright (c) 2023 The Authors
  * @license    <http://opensource.org/licenses/bsd-license.php> New BSD License
